@@ -158,8 +158,8 @@ public:
 int main(void)
 {
 	EmployeeHandler handler;
-	handler.AddEmployee(new PermanentWorker("È«±æµ¿", 2000000));
-	handler.AddEmployee(new SalesEmployee("Á¶ÁßÈÖ", 3000000, 500000));
+	handler.AddEmployee(new PermanentWorker("Á¶ÁßÈÖ", 50000000));
+	handler.AddEmployee(new SalesEmployee("È«±æµ¿", 3000000, 500000));
 	handler.AddEmployee(new TemporaryEmployee("±è¿¬¾Æ", 200));
 	handler.ShowAllSalaryInfo();
 	handler.ShowTotalSalary();
