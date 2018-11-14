@@ -62,7 +62,7 @@ public:
 	{
 		cout << "---영업직---" << endl;
 		ShowYourName();
-		cout << "월급 + 인센티브 : " << GetSalary() << endl;
+		cout << "월급 + 인센티브 : " << GetSalary() << endl << endl;
 	}
 };
 
@@ -77,14 +77,16 @@ public:
 	//월급을 반환하는 함수
 	int GetSalary() const //const: 수정 못하게끔
 	{
-		return (5580*pay);
+		return (7530*pay);
 	}
 	//정규직 사원을 출력하는 함수
 	void ShowEmployeeInfo() const
 	{
-		cout << "---임시직---" << endl;
+		cout << "---알바생---" << endl;
 		ShowYourName();
-		cout << "시급 : " << GetSalary() << endl;
+		cout << "최저시급 : 7530원" << endl;
+		cout << "일한시간 : " << pay << endl;
+		cout << "시급 : 7530x" <<pay<<"="<<GetSalary() << endl << endl;
 	}
 
 };
@@ -107,7 +109,7 @@ public:
 	{
 		cout << "---정규직---" << endl;
 		ShowYourName();
-		cout << "월급 : " << GetSalary() << endl;
+		cout << "월급 : " << GetSalary() << endl << endl;
 	}
 };
 
