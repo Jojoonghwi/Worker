@@ -8,8 +8,13 @@ using namespace std;
 - 사원명, 월급을 관리하는 클래스 디자인	(캡슐화)
 - 사원을 관리하는 클래스				(다형성)
 - 사원들 월급의 총 합					(virtual)
+- 영업직, 임시직의 엔터티 클래스를 작성하세요
+- 영업직의 급여는 기본급에 성과급을 포함할 수 있도록 디자인
+- 임시직 시급으로 계산해서 지급될 수 있도록 디자인
 - 간단한 인사관리 프로그램 작성
 */
+
+
 
 class Employee
 {
@@ -38,6 +43,52 @@ public:
 	}
 };
 
+class SalesEmployee : public Employee
+{
+private:
+	int salary;
+	int incentive;
+public:
+	//생성자
+	SalesEmployee(const char * name, int money, int inc) : Employee(name), salary(money), incentive(inc)
+	{}
+	//월급을 반환하는 함수
+	int GetSalary() const //const: 수정 못하게끔
+	{
+		return (salary+incentive);
+	}
+	//정규직 사원을 출력하는 함수
+	void ShowEmployeeInfo() const
+	{
+		cout << "---영업직---" << endl;
+		ShowYourName();
+		cout << "월급 + 인센티브 : " << GetSalary() << endl;
+	}
+};
+
+class TemporaryEmployee : public Employee
+{
+private:
+	int pay;
+public:
+	//생성자
+	TemporaryEmployee(const char * name, int hour) : Employee(name), pay(hour)
+	{}
+	//월급을 반환하는 함수
+	int GetSalary() const //const: 수정 못하게끔
+	{
+		return (5580*pay);
+	}
+	//정규직 사원을 출력하는 함수
+	void ShowEmployeeInfo() const
+	{
+		cout << "---임시직---" << endl;
+		ShowYourName();
+		cout << "시급 : " << GetSalary() << endl;
+	}
+
+};
+
 class PermanentWorker : public Employee
 {
 private:
@@ -54,6 +105,7 @@ public:
 	//정규직 사원을 출력하는 함수
 	void ShowEmployeeInfo() const
 	{
+		cout << "---정규직---" << endl;
 		ShowYourName();
 		cout << "월급 : " << GetSalary() << endl;
 	}
@@ -62,48 +114,51 @@ public:
 class EmployeeHandler
 {
 private:
-	Employee * empList[50]; //다형성
-	int empNum;
+	Employee * empList1[50]; //다형성
+	//SalesEmployee * empList2[50];
+	//TemporaryEmployee * empList3[50];
+	int empNum1;
 public:
 	//생성자
-	EmployeeHandler() : empNum(0)//empNum초기화
+	EmployeeHandler() : empNum1(0)//empNum1초기화
 	{
 
 	}
 	//사원등록 함수
 	void AddEmployee(Employee * emp)
 	{
-		empList[empNum++] = emp;
+		empList1[empNum1++] = emp;
 	}
 	//전체사원 월급 정보 출력 함수
 	void ShowAllSalaryInfo() const
 	{
-		for (int i = 0; i < empNum; i++)
-			empList[i]->ShowEmployeeInfo();
+		for (int i = 0; i < empNum1; i++)
+			empList1[i]->ShowEmployeeInfo();
 	}
 	//이번달 총 월급 합계 함수
 	void ShowTotalSalary() const
 	{
 		int sum = 0;
-		for (int i = 0; i < empNum; i++)
-			sum += empList[i]->GetSalary();
+		for (int i = 0; i < empNum1; i++)
+			sum += empList1[i]->GetSalary();
 
 		cout << "월급 합계 : " << sum << endl;
-		empList[0]->GetSalary();
+		empList1[0]->GetSalary();
 	}
 	//소멸자
 	~EmployeeHandler()
 	{
-		for (int i = 0; i < empNum; i++)
-			delete empList[i];
+		for (int i = 0; i < empNum1; i++)
+			delete empList1[i];
 	}
 };
 
 int main(void)
 {
 	EmployeeHandler handler;
-	handler.AddEmployee(new PermanentWorker("홍길동", 200));
-	handler.AddEmployee(new PermanentWorker("조중휘", 300));
+	handler.AddEmployee(new PermanentWorker("홍길동", 2000000));
+	handler.AddEmployee(new SalesEmployee("조중휘", 3000000, 500000));
+	handler.AddEmployee(new TemporaryEmployee("김연아", 200));
 	handler.ShowAllSalaryInfo();
 	handler.ShowTotalSalary();
 
